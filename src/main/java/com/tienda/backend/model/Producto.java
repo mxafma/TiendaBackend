@@ -1,12 +1,12 @@
-// model/Usuario.java
 package com.tienda.backend.model;
 
 import jakarta.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "usuarios")
-public class Usuario {
+@Table(name = "productos")
+public class Producto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,19 +15,23 @@ public class Usuario {
     @Column(nullable = false)
     private String nombre;
 
-    private String apellido;
+    @Column(length = 1000)
+    private String descripcion;
 
-    @Column(nullable = false, unique = true)
-    private String email;
+    private String codigoBarra;
+
+    @Column(nullable = false, precision = 10, scale = 2)
+    private BigDecimal precioVenta;
 
     @Column(nullable = false)
-    private String passwordHash;
-
-    @Column(nullable = false)
-    private String rol; // ADMIN, VENDEDOR, etc.
+    private Integer stockActual = 0;
 
     @Column(nullable = false)
     private Boolean activo = true;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "categoria_id", nullable = false)
+    private Categoria categoria;
 
     @Column(nullable = false, updatable = false)
     private LocalDateTime creadoEn;
@@ -64,36 +68,36 @@ public class Usuario {
         this.nombre = nombre;
     }
 
-    public String getApellido() {
-        return apellido;
+    public String getDescripcion() {
+        return descripcion;
     }
 
-    public void setApellido(String apellido) {
-        this.apellido = apellido;
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 
-    public String getEmail() {
-        return email;
+    public String getCodigoBarra() {
+        return codigoBarra;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setCodigoBarra(String codigoBarra) {
+        this.codigoBarra = codigoBarra;
     }
 
-    public String getPasswordHash() {
-        return passwordHash;
+    public BigDecimal getPrecioVenta() {
+        return precioVenta;
     }
 
-    public void setPasswordHash(String passwordHash) {
-        this.passwordHash = passwordHash;
+    public void setPrecioVenta(BigDecimal precioVenta) {
+        this.precioVenta = precioVenta;
     }
 
-    public String getRol() {
-        return rol;
+    public Integer getStockActual() {
+        return stockActual;
     }
 
-    public void setRol(String rol) {
-        this.rol = rol;
+    public void setStockActual(Integer stockActual) {
+        this.stockActual = stockActual;
     }
 
     public Boolean getActivo() {
@@ -102,6 +106,14 @@ public class Usuario {
 
     public void setActivo(Boolean activo) {
         this.activo = activo;
+    }
+
+    public Categoria getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
     }
 
     public LocalDateTime getCreadoEn() {
