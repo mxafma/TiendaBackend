@@ -1,11 +1,22 @@
 package com.tienda.backend.model;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "boletas")
@@ -18,9 +29,8 @@ public class Boleta {
     @Column(nullable = false)
     private LocalDateTime fechaHora;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "usuario_id", nullable = false)
-    private Usuario usuario;
+    @Column(name = "usuario_id", nullable = false)
+    private Long usuarioId;
 
     @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal totalBruto;
@@ -31,13 +41,19 @@ public class Boleta {
     @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal totalNeto;
 
+    @Column(nullable = true)
     private String metodoPago; // EFECTIVO, TARJETA, TRANSFERENCIA, MIXTO
 
-    @OneToMany(mappedBy = "boleta", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(
+        mappedBy = "boleta",
+        cascade = CascadeType.ALL,
+        orphanRemoval = true,
+        fetch = FetchType.EAGER
+    )
     @JsonManagedReference
     private List<DetalleBoleta> detalles = new ArrayList<>();
 
-    // Callback para establecer la fecha automáticamente
+    // ----- AUTO FECHA -----
     @PrePersist
     protected void onCreate() {
         if (fechaHora == null) {
@@ -45,7 +61,7 @@ public class Boleta {
         }
     }
 
-    // Método helper para agregar detalles y mantener la relación bidireccional
+    // ----- HELPERS PARA DETALLES -----
     public void addDetalle(DetalleBoleta detalle) {
         detalles.add(detalle);
         detalle.setBoleta(this);
@@ -56,7 +72,8 @@ public class Boleta {
         detalle.setBoleta(null);
     }
 
-    // --- Getters y Setters ---
+    // ----- GETTERS & SETTERS -----
+
     public Long getId() {
         return id;
     }
@@ -73,12 +90,12 @@ public class Boleta {
         this.fechaHora = fechaHora;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
+    public Long getUsuarioId() {
+        return usuarioId;
     }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    public void setUsuarioId(Long usuarioId) {
+        this.usuarioId = usuarioId;
     }
 
     public BigDecimal getTotalBruto() {
