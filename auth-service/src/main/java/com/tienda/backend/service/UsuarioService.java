@@ -3,6 +3,7 @@ package com.tienda.backend.service;
 
 import com.tienda.backend.model.Usuario;
 import com.tienda.backend.repository.UsuarioRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,20 +13,21 @@ import java.util.Optional;
 public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UsuarioService(UsuarioRepository usuarioRepository) {
+    public UsuarioService(UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder) {
         this.usuarioRepository = usuarioRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
-    // Método de login
+    // Método de login: compara password plano con hash
     public Optional<Usuario> login(String email, String password) {
         return usuarioRepository.findByEmail(email)
-                .filter(user -> user.getPasswordHash().equals(password) && user.getActivo());
+                .filter(user -> user.getActivo() && password != null && passwordEncoder.matches(password, user.getPasswordHash()));
     }
 
     // CRUD Completo
     public Usuario createUsuario(Usuario usuario) {
-        // El usuario debe venir con passwordHash ya cifrado desde el controller
         if (usuario.getActivo() == null) {
             usuario.setActivo(true);
         }
@@ -43,21 +45,21 @@ public class UsuarioService {
 
     public Usuario updateUsuario(Long id, Usuario usuarioActualizado) {
         Usuario usuarioExistente = getUsuarioById(id);
-        
+
         usuarioExistente.setNombre(usuarioActualizado.getNombre());
         usuarioExistente.setApellido(usuarioActualizado.getApellido());
         usuarioExistente.setEmail(usuarioActualizado.getEmail());
-        
+
         if (usuarioActualizado.getPasswordHash() != null && !usuarioActualizado.getPasswordHash().isEmpty()) {
             usuarioExistente.setPasswordHash(usuarioActualizado.getPasswordHash());
         }
-        
+
         usuarioExistente.setRol(usuarioActualizado.getRol());
-        
+
         if (usuarioActualizado.getActivo() != null) {
             usuarioExistente.setActivo(usuarioActualizado.getActivo());
         }
-        
+
         return usuarioRepository.save(usuarioExistente);
     }
 
