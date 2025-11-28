@@ -1,17 +1,17 @@
 package com.tienda.backend.dto;
 
-import com.tienda.backend.model.Usuario;
-
 public class AuthResponse {
     private String message;
-    private Usuario usuario;
+    private UsuarioResponse usuario;
+    private String token;
 
     public AuthResponse() {
     }
 
-    public AuthResponse(String message, Usuario usuario) {
+    public AuthResponse(String message, UsuarioResponse usuario, String token) {
         this.message = message;
         this.usuario = usuario;
+        this.token = token;
     }
 
     // Getters y Setters
@@ -23,11 +23,19 @@ public class AuthResponse {
         this.message = message;
     }
 
-    public Usuario getUsuario() {
+    public UsuarioResponse getUsuario() {
         return usuario;
     }
 
-    public void setUsuario(Usuario usuario) {
+    public void setUsuario(UsuarioResponse usuario) {
         this.usuario = usuario;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }
