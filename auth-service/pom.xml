@@ -6,12 +6,20 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.tienda</groupId>
-        <artifactId>backend</artifactId>
-        <version>1.0.0</version>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.5.5</version>
+        <relativePath/>
     </parent>
 
+    <groupId>com.tienda</groupId>
     <artifactId>auth-service</artifactId>
+    <version>1.0.0</version>
+    <name>auth-service</name>
+
+    <properties>
+        <java.version>17</java.version>
+    </properties>
 
     <dependencies>
 
@@ -27,7 +35,7 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
-        <!-- Seguridad -->
+        <!-- Security -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
@@ -72,6 +80,16 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
