@@ -1,6 +1,7 @@
 package com.tienda.backend.controller;
 
 import com.tienda.backend.model.Categoria;
+import com.tienda.backend.dto.CategoriaRequest;
 import com.tienda.backend.service.CategoriaService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -24,7 +25,11 @@ public class CategoriaController {
 
     @PostMapping
     @Operation(summary = "Crear una nueva categoría")
-    public ResponseEntity<Categoria> createCategoria(@RequestBody Categoria categoria) {
+    public ResponseEntity<Categoria> createCategoria(@RequestBody CategoriaRequest categoriaReq) {
+        Categoria categoria = new Categoria();
+        categoria.setNombre(categoriaReq.getNombre());
+        categoria.setDescripcion(categoriaReq.getDescripcion());
+        categoria.setActiva(categoriaReq.getActiva());
         Categoria nuevaCategoria = categoriaService.createCategoria(categoria);
         return new ResponseEntity<>(nuevaCategoria, HttpStatus.CREATED);
     }
