@@ -1,6 +1,7 @@
 package com.tienda.backend.controller;
 
 import com.tienda.backend.model.Producto;
+import com.tienda.backend.dto.ProductoDTO;
 import com.tienda.backend.service.ProductoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -24,8 +25,8 @@ public class ProductoController {
 
     @PostMapping
     @Operation(summary = "Crear un nuevo producto")
-    public ResponseEntity<Producto> createProducto(@RequestBody Producto producto) {
-        Producto nuevoProducto = productoService.createProducto(producto);
+    public ResponseEntity<Producto> createProducto(@RequestBody ProductoDTO productoDto) {
+        Producto nuevoProducto = productoService.createProductoFromDTO(productoDto);
         return new ResponseEntity<>(nuevoProducto, HttpStatus.CREATED);
     }
 

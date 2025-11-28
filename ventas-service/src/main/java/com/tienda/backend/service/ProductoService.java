@@ -1,7 +1,10 @@
 package com.tienda.backend.service;
 
 import com.tienda.backend.model.Producto;
+import com.tienda.backend.model.Categoria;
+import com.tienda.backend.dto.ProductoDTO;
 import com.tienda.backend.repository.ProductoRepository;
+import com.tienda.backend.repository.CategoriaRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,9 +13,11 @@ import java.util.List;
 public class ProductoService {
 
     private final ProductoRepository productoRepository;
+    private final CategoriaRepository categoriaRepository;
 
-    public ProductoService(ProductoRepository productoRepository) {
+    public ProductoService(ProductoRepository productoRepository, CategoriaRepository categoriaRepository) {
         this.productoRepository = productoRepository;
+        this.categoriaRepository = categoriaRepository;
     }
 
     // CRUD Completo
@@ -23,6 +28,23 @@ public class ProductoService {
         if (producto.getStockActual() == null) {
             producto.setStockActual(0);
         }
+        return productoRepository.save(producto);
+    }
+
+    // Crear producto a partir de DTO (mapea categoria por id)
+    public Producto createProductoFromDTO(ProductoDTO dto) {
+        Categoria categoria = categoriaRepository.findById(dto.getCategoriaId())
+                .orElseThrow(() -> new RuntimeException("Categoría no encontrada con id: " + dto.getCategoriaId()));
+
+        Producto producto = new Producto();
+        producto.setNombre(dto.getNombre());
+        producto.setDescripcion(dto.getDescripcion());
+        producto.setCodigoBarra(dto.getCodigoBarra());
+        producto.setPrecioVenta(dto.getPrecioVenta());
+        producto.setStockActual(dto.getStockActual() != null ? dto.getStockActual() : 0);
+        producto.setActivo(dto.getActivo() != null ? dto.getActivo() : true);
+        producto.setCategoria(categoria);
+
         return productoRepository.save(producto);
     }
 
