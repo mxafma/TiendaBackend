@@ -1,10 +1,8 @@
 // controller/UsuarioController.java
 package com.tienda.backend.controller;
 
-import com.tienda.backend.dto.UsuarioRequest;
 import com.tienda.backend.model.Usuario;
 import com.tienda.backend.service.UsuarioService;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
@@ -20,27 +18,14 @@ import java.util.List;
 public class UsuarioController {
 
     private final UsuarioService usuarioService;
-    private final PasswordEncoder passwordEncoder;
 
-    public UsuarioController(UsuarioService usuarioService, PasswordEncoder passwordEncoder) {
+    public UsuarioController(UsuarioService usuarioService) {
         this.usuarioService = usuarioService;
-        this.passwordEncoder = passwordEncoder;
     }
 
     @PostMapping
     @Operation(summary = "Crear un nuevo usuario")
-    public ResponseEntity<Usuario> createUsuario(@RequestBody UsuarioRequest request) {
-        Usuario usuario = new Usuario();
-        usuario.setNombre(request.getNombre());
-        usuario.setApellido(request.getApellido());
-        usuario.setEmail(request.getEmail());
-        // hash the plain password into passwordHash expected by the entity
-        if (request.getPassword() != null && !request.getPassword().isEmpty()) {
-            usuario.setPasswordHash(passwordEncoder.encode(request.getPassword()));
-        }
-        usuario.setRol(request.getRol());
-        usuario.setActivo(request.getActivo() != null ? request.getActivo() : true);
-
+    public ResponseEntity<Usuario> createUsuario(@RequestBody Usuario usuario) {
         Usuario nuevoUsuario = usuarioService.createUsuario(usuario);
         return new ResponseEntity<>(nuevoUsuario, HttpStatus.CREATED);
     }

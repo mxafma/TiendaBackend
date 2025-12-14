@@ -6,10 +6,12 @@ public class UsuarioRequest {
     private String email;
     private String password;
     private String rol;
-    private Boolean activo;
 
-    public UsuarioRequest() {}
+    // Constructores
+    public UsuarioRequest() {
+    }
 
+    // Getters y Setters
     public String getNombre() {
         return nombre;
     }
@@ -49,13 +51,4 @@ public class UsuarioRequest {
     public void setRol(String rol) {
         this.rol = rol;
     }
-
-    public Boolean getActivo() {
-        return activo;
-    }
-
-    public void setActivo(Boolean activo) {
-        this.activo = activo;
-    }
 }
-

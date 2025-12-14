@@ -10,10 +10,12 @@ public class UsuarioResponse {
     private String rol;
     private Boolean activo;
     private LocalDateTime creadoEn;
-    private LocalDateTime actualizadoEn;
 
-    public UsuarioResponse() {}
+    // Constructores
+    public UsuarioResponse() {
+    }
 
+    // Getters y Setters
     public Long getId() {
         return id;
     }
@@ -69,13 +71,4 @@ public class UsuarioResponse {
     public void setCreadoEn(LocalDateTime creadoEn) {
         this.creadoEn = creadoEn;
     }
-
-    public LocalDateTime getActualizadoEn() {
-        return actualizadoEn;
-    }
-
-    public void setActualizadoEn(LocalDateTime actualizadoEn) {
-        this.actualizadoEn = actualizadoEn;
-    }
 }
-
