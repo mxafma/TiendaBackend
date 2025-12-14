@@ -13,7 +13,7 @@ import io.swagger.v3.oas.annotations.servers.Server;
             description = "Local Development"
         ),
         @Server(
-            url = "https://meticulous-youth-production.up.railway.app/",
+            url = "https://scintillating-renewal-production.up.railway.app",
             description = "Railway Production"
         )
     }

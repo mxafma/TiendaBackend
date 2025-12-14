@@ -3,10 +3,8 @@ package com.tienda.backend.controller;
 
 import com.tienda.backend.dto.AuthResponse;
 import com.tienda.backend.dto.LoginRequest;
-import com.tienda.backend.dto.UsuarioResponse;
 import com.tienda.backend.model.Usuario;
 import com.tienda.backend.service.UsuarioService;
-import com.tienda.backend.util.JwtUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
@@ -22,11 +20,9 @@ import java.util.Optional;
 public class AuthController {
 
     private final UsuarioService usuarioService;
-    private final JwtUtil jwtUtil;
 
-    public AuthController(UsuarioService usuarioService, JwtUtil jwtUtil) {
+    public AuthController(UsuarioService usuarioService) {
         this.usuarioService = usuarioService;
-        this.jwtUtil = jwtUtil;
     }
 
     @PostMapping("/login")
@@ -35,24 +31,10 @@ public class AuthController {
         Optional<Usuario> user = usuarioService.login(request.getEmail(), request.getPassword());
         
         if (user.isPresent()) {
-            Usuario u = user.get();
-            // map to UsuarioResponse to avoid exposing passwordHash
-            UsuarioResponse ur = new UsuarioResponse();
-            ur.setId(u.getId());
-            ur.setNombre(u.getNombre());
-            ur.setApellido(u.getApellido());
-            ur.setEmail(u.getEmail());
-            ur.setRol(u.getRol());
-            ur.setActivo(u.getActivo());
-            ur.setCreadoEn(u.getCreadoEn());
-            ur.setActualizadoEn(u.getActualizadoEn());
-
-            String token = jwtUtil.generateToken(u);
-
-            AuthResponse response = new AuthResponse("Login exitoso", ur, token);
+            AuthResponse response = new AuthResponse("Login exitoso", user.get());
             return ResponseEntity.ok(response);
         } else {
-            AuthResponse response = new AuthResponse("Usuario o contraseña incorrectos", null, null);
+            AuthResponse response = new AuthResponse("Usuario o contraseña incorrectos", null);
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
         }
     }
