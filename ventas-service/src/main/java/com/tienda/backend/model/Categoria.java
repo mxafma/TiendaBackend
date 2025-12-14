@@ -2,9 +2,11 @@ package com.tienda.backend.model;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import lombok.Data;
 
 @Entity
 @Table(name = "categorias")
+@Data
 public class Categoria {
 
     @Id
@@ -35,54 +37,5 @@ public class Categoria {
     @PreUpdate
     protected void onUpdate() {
         actualizadaEn = LocalDateTime.now();
-    }
-
-    // --- Getters y Setters ---
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
-
-    public Boolean getActiva() {
-        return activa;
-    }
-
-    public void setActiva(Boolean activa) {
-        this.activa = activa;
-    }
-
-    public LocalDateTime getCreadaEn() {
-        return creadaEn;
-    }
-
-    public void setCreadaEn(LocalDateTime creadaEn) {
-        this.creadaEn = creadaEn;
-    }
-
-    public LocalDateTime getActualizadaEn() {
-        return actualizadaEn;
-    }
-
-    public void setActualizadaEn(LocalDateTime actualizadaEn) {
-        this.actualizadaEn = actualizadaEn;
     }
 }

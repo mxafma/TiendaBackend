@@ -3,9 +3,11 @@ package com.tienda.backend.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
+import lombok.Data;
 
 @Entity
 @Table(name = "detalle_boletas")
+@Data
 public class DetalleBoleta {
 
     @Id
@@ -44,70 +46,5 @@ public class DetalleBoleta {
             descuentoLinea = BigDecimal.ZERO;
         }
         totalLinea = subtotal.subtract(descuentoLinea);
-    }
-
-    // --- Getters y Setters ---
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Boleta getBoleta() {
-        return boleta;
-    }
-
-    public void setBoleta(Boleta boleta) {
-        this.boleta = boleta;
-    }
-
-    public Producto getProducto() {
-        return producto;
-    }
-
-    public void setProducto(Producto producto) {
-        this.producto = producto;
-    }
-
-    public Integer getCantidad() {
-        return cantidad;
-    }
-
-    public void setCantidad(Integer cantidad) {
-        this.cantidad = cantidad;
-    }
-
-    public BigDecimal getPrecioUnitario() {
-        return precioUnitario;
-    }
-
-    public void setPrecioUnitario(BigDecimal precioUnitario) {
-        this.precioUnitario = precioUnitario;
-    }
-
-    public BigDecimal getSubtotal() {
-        return subtotal;
-    }
-
-    public void setSubtotal(BigDecimal subtotal) {
-        this.subtotal = subtotal;
-    }
-
-    public BigDecimal getDescuentoLinea() {
-        return descuentoLinea;
-    }
-
-    public void setDescuentoLinea(BigDecimal descuentoLinea) {
-        this.descuentoLinea = descuentoLinea;
-    }
-
-    public BigDecimal getTotalLinea() {
-        return totalLinea;
-    }
-
-    public void setTotalLinea(BigDecimal totalLinea) {
-        this.totalLinea = totalLinea;
     }
 }

@@ -3,9 +3,11 @@ package com.tienda.backend.model;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import lombok.Data;
 
 @Entity
 @Table(name = "productos")
+@Data
 public class Producto {
 
     @Id
@@ -49,86 +51,5 @@ public class Producto {
     @PreUpdate
     protected void onUpdate() {
         actualizadoEn = LocalDateTime.now();
-    }
-
-    // --- Getters y Setters ---
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
-
-    public String getCodigoBarra() {
-        return codigoBarra;
-    }
-
-    public void setCodigoBarra(String codigoBarra) {
-        this.codigoBarra = codigoBarra;
-    }
-
-    public BigDecimal getPrecioVenta() {
-        return precioVenta;
-    }
-
-    public void setPrecioVenta(BigDecimal precioVenta) {
-        this.precioVenta = precioVenta;
-    }
-
-    public Integer getStockActual() {
-        return stockActual;
-    }
-
-    public void setStockActual(Integer stockActual) {
-        this.stockActual = stockActual;
-    }
-
-    public Boolean getActivo() {
-        return activo;
-    }
-
-    public void setActivo(Boolean activo) {
-        this.activo = activo;
-    }
-
-    public Categoria getCategoria() {
-        return categoria;
-    }
-
-    public void setCategoria(Categoria categoria) {
-        this.categoria = categoria;
-    }
-
-    public LocalDateTime getCreadoEn() {
-        return creadoEn;
-    }
-
-    public void setCreadoEn(LocalDateTime creadoEn) {
-        this.creadoEn = creadoEn;
-    }
-
-    public LocalDateTime getActualizadoEn() {
-        return actualizadoEn;
-    }
-
-    public void setActualizadoEn(LocalDateTime actualizadoEn) {
-        this.actualizadoEn = actualizadoEn;
     }
 }
