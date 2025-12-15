@@ -23,7 +23,7 @@ public class JwtService {
     @Value("${jwt.issuer:tienda-app}")
     private String jwtIssuer;
 
-    @Value("${jwt.expiration-minutes:60}")
+    @Value("${jwt.expiration-minutes:43200}")
     private int jwtExpirationMinutes;
 
     private SecretKey getSigningKey() {
